@@ -11,7 +11,7 @@ var detectNetwork = function(cardNumber) {
   // Note: `cardNumber` will always be a string
   // The Diner's Club network always starts with a 38 or 39 and is 14 digits long
   // The American Express network always starts with a 34 or 37 and is 15 digits long
-  let prefix = cardNumber.slice(0,4);
+  let prefix = cardNumber.slice(0,6);
   let len = cardNumber.length;
 
   // Diner's Club detect using validCard helper
@@ -43,6 +43,11 @@ var detectNetwork = function(cardNumber) {
   else if(validCard(len, [12, 13, 14, 15, 16, 17, 18, 19], prefix, ['5018', '5020', '5038', '6304'])){
     return 'Maestro';
   }
+
+  // China UnionPay detect
+  else if(validCard(len, [16, 19], prefix, [['622126','622925'], ['624', '626'], ['6282', '6288']])){
+    return 'China UnionPay';
+  }
   // Once you've read this, go ahead and try to implement this function, then return to the console.
 };
 
@@ -58,11 +63,28 @@ function validCard(inputLength, validLength, inputPrefix, validPrefix){
   }
 
   for(var i = 0; i < validPrefix.length; i++){
+    // check if index is an array - meaning range of prefix values
+    if(Array.isArray(validPrefix[i])){
+      let startNum = Number(validPrefix[i][0]);
+      let endNum = Number(validPrefix[i][1]);
+
+      for(var k = startNum; k <= endNum; k++){
+        let currPrefix = k.toString();
+        let prefixLen = currPrefix.length;
+        let reformPrefixInput = inputPrefix.slice(0,prefixLen);
+
+        if(lengthCheck == true && reformPrefixInput == currPrefix){
+         return true;
+        }
+      }
+    } else {
+
     let prefixLen = validPrefix[i].length;
     let reformPrefixInput = inputPrefix.slice(0,prefixLen);
 
     if(lengthCheck == true && reformPrefixInput == validPrefix[i]){
       return true;
+    }
     }
   }
   return false;

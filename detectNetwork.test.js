@@ -197,6 +197,12 @@ describe('Maestro', function() {
     })(leng, testNums)
   };
 
+});
+
+describe('China UnionPay', function() {
+  var expect = chai.expect;
+
+  
 
 });
 
