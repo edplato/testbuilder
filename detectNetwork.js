@@ -15,22 +15,44 @@ var detectNetwork = function(cardNumber) {
   let len = cardNumber.length;
 
   // Diner's Club detect using validCard helper
-  if(validCard(len, 14, prefix, ['38', '39'])){
+  if(validCard(len, [14], prefix, ['38', '39'])){
     return 'Diner\'s Club';
+  }
+
+  // American Express detect
+  else if(validCard(len, [15], prefix, ['34', '37'])){
+    return 'American Express';
+  }
+
+  // Visa detect
+  else if(validCard(len, [13, 16, 19], prefix, ['4'])){
+    return 'Visa';
+  }
+
+  // MasterCard detect
+  else if(validCard(len, [16], prefix, ['51', '52', '53', '54', '55'])){
+    return 'MasterCard';
   }
 
   // Once you've read this, go ahead and try to implement this function, then return to the console.
 };
 
-// helper function takes inputs of number 'inputLength' and 'inputPrefix' and checks against valid length and 
-// valid array of prefix
+// helper function takes inputs of number 'inputLength' and strings 'inputPrefix' and checks against valid arrays 
+// of length and prefix
 function validCard(inputLength, validLength, inputPrefix, validPrefix){
-  if(inputLength !== validLength){
-    return false;
+  var lengthCheck = false;
+
+  for(var j = 0; j < validLength.length; j++){
+    if(inputLength == validLength[j]){
+      lengthCheck = true;
+    }
   }
 
   for(var i = 0; i < validPrefix.length; i++){
-    if(inputPrefix == validPrefix[i]){
+    let prefixLen = validPrefix[i].length;
+    let reformPrefixInput = inputPrefix.slice(0,prefixLen);
+
+    if(lengthCheck == true && reformPrefixInput == validPrefix[i]){
       return true;
     }
   }
