@@ -11,8 +11,29 @@ var detectNetwork = function(cardNumber) {
   // Note: `cardNumber` will always be a string
   // The Diner's Club network always starts with a 38 or 39 and is 14 digits long
   // The American Express network always starts with a 34 or 37 and is 15 digits long
+  let prefix = cardNumber.slice(0,2);
+  let len = cardNumber.length;
+
+  // Diner's Club detect using validCard helper
+  if(validCard(len, 14, prefix, ['38', '39'])){
+    return 'Diner\'s Club';
+  }
 
   // Once you've read this, go ahead and try to implement this function, then return to the console.
 };
 
+// helper function takes inputs of number 'inputLength' and 'inputPrefix' and checks against valid length and 
+// valid array of prefix
+function validCard(inputLength, validLength, inputPrefix, validPrefix){
+  if(inputLength !== validLength){
+    return false;
+  }
+
+  for(var i = 0; i < validPrefix.length; i++){
+    if(inputPrefix == validPrefix[i]){
+      return true;
+    }
+  }
+  return false;
+};
 
