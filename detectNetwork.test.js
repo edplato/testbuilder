@@ -62,18 +62,18 @@ describe('American Express', function() {
   // It can get annoying to keep typing the if/throw, so here is a
   // helper function to throw an error if the input statement isn't true. 
   var assert = function(isTrue) {
-    if(isTrue) {
+    if(!isTrue) {
       throw new Error('Test failed');
     }
  
   };
 
   it('has a prefix of 34 and a length of 15', function() {
-    assert(detectNetwork('343456789012345') !== 'American Express');
+    assert(detectNetwork('343456789012345') === 'American Express');
   });
 
   it('has a prefix of 37 and a length of 15', function() {
-    assert(detectNetwork('373456789012345') !== 'American Express');
+    assert(detectNetwork('373456789012345') === 'American Express');
   });
 });
 
@@ -156,21 +156,48 @@ describe('Discover', function() {
     expect(detectNetwork('6511345678901234123')).to.equal('Discover');
   });
 
-  for(var prefix = 644; prefix <= 649; prefix++){
-    (function(prefix) {
-    it('has a prefix of ' + prefix + ' and a length of 16', function() {
-      expect(detectNetwork(prefix + '5678901234123')).to.equal('Discover');
+  for(var pref = 644; pref <= 649; pref++){
+    (function(pref) {
+    it('has a prefix of ' + pref + ' and a length of 16', function() {
+      let ccNum = pref + '5678901234123';
+      expect(detectNetwork(ccNum)).to.equal('Discover');
     });
-    it('has a prefix of ' + prefix + ' and a length of 19', function() {
-      expect(detectNetwork(prefix + '3415678901234123')).to.equal('Discover');
+    it('has a prefix of ' + pref + ' and a length of 19', function() {
+      let ccNum = pref + '3415678901234123';
+      expect(detectNetwork(ccNum)).to.equal('Discover');
     });
-    })(prefix)
+    })(pref)
   };
 
 });
 
 describe('Maestro', function() {
   // Write full test coverage for the Maestro card
+  var expect = chai.expect;
+
+  for(var leng = 12; leng <= 19; leng++){
+    var testNums = '123678901234123'.slice(0, (leng-4));
+    (function(leng, testNums) {
+      it('has a prefix of 5018 and a length of ' + leng, function() {
+        let ccNum = '5018' + testNums;
+        expect(detectNetwork(ccNum)).to.equal('Maestro');
+      });
+      it('has a prefix of 5020 and a length of ' + leng, function() {
+        let ccNum = '5020' + testNums;
+        expect(detectNetwork(ccNum)).to.equal('Maestro');
+      });
+      it('has a prefix of 5038 and a length of ' + leng, function() {
+        let ccNum = '5038' + testNums;
+        expect(detectNetwork(ccNum)).to.equal('Maestro');
+      });
+      it('has a prefix of 6304 and a length of ' + leng, function() {
+        let ccNum = '6304' + testNums;
+        expect(detectNetwork(ccNum)).to.equal('Maestro');
+      });
+    })(leng, testNums)
+  };
+
+
 });
 
 describe('should support China UnionPay')

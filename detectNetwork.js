@@ -35,10 +35,14 @@ var detectNetwork = function(cardNumber) {
   }
 
   // Discover detect
-  else if(validCard(len, [16, 19], prefix, ['6011', '644', '645', '646', '647',' 648', '649', '65'])){
+  else if(validCard(len, [16, 19], prefix, ['6011', '644', '645', '646', '647', '648', '649', '65'])){
     return 'Discover';
   }
 
+  // Maestro detect
+  else if(validCard(len, [12, 13, 14, 15, 16, 17, 18, 19], prefix, ['5018', '5020', '5038', '6304'])){
+    return 'Maestro';
+  }
   // Once you've read this, go ahead and try to implement this function, then return to the console.
 };
 
