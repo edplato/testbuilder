@@ -24,6 +24,11 @@ var detectNetwork = function(cardNumber) {
     return 'American Express';
   }
 
+  // Switch detect
+  else if(validCard(len, [16, 18, 19], prefix, ['4903', '4905', '4911', '4936', '564182', '633110', '6333', '6759'])){
+    return 'Switch';
+  }
+
   // Visa detect
   else if(validCard(len, [13, 16, 19], prefix, ['4'])){
     return 'Visa';
@@ -45,9 +50,10 @@ var detectNetwork = function(cardNumber) {
   }
 
   // China UnionPay detect
-  else if(validCard(len, [16, 19], prefix, [['622126','622925'], ['624', '626'], ['6282', '6288']])){
+  else if(validCard(len, [16, 17, 18, 19], prefix, [['622126','622925'], ['624', '626'], ['6282', '6288']])){
     return 'China UnionPay';
   }
+
   // Once you've read this, go ahead and try to implement this function, then return to the console.
 };
 

@@ -212,12 +212,17 @@ describe('China UnionPay', function() {
       let currPrefix = j.toString();
 
       (function(currPrefix) {
+      let ccNum = currPrefix + '1236789012341234';
       it('has a prefix of ' + currPrefix + ' and a length of 16', function() {
-        let ccNum = currPrefix + '1236789012341';
         expect(detectNetwork(ccNum.slice(0, 16))).to.equal('China UnionPay');
       });
+      it('has a prefix of ' + currPrefix + ' and a length of 17', function() {
+        expect(detectNetwork(ccNum.slice(0, 17))).to.equal('China UnionPay');
+      });
+      it('has a prefix of ' + currPrefix + ' and a length of 18', function() {
+        expect(detectNetwork(ccNum.slice(0, 18))).to.equal('China UnionPay');
+      });
       it('has a prefix of ' + currPrefix + ' and a length of 19', function() {
-        let ccNum = currPrefix + '1236789012341234';
         expect(detectNetwork(ccNum.slice(0, 19))).to.equal('China UnionPay');
       });
       })(currPrefix)
@@ -226,4 +231,27 @@ describe('China UnionPay', function() {
 
 });
 
-// describe('should support Switch')
+describe('Switch', function() {
+
+  var expect = chai.expect;
+
+  var prefixNums = ['4903', '4905', '4911', '4936', '564182', '633110', '6333', '6759'];
+
+  for(var i = 0; i < prefixNums.length; i++){
+    let currPrefix = prefixNums[i];
+
+    (function(currPrefix) {
+      let ccNum = currPrefix + '123456890123456';
+      it('has a prefix of ' + currPrefix + ' and a length of 16', function() {
+        expect(detectNetwork(ccNum.slice(0, 16))).to.equal('Switch');
+      });
+      it('has a prefix of ' + currPrefix + ' and a length of 18', function() {
+        expect(detectNetwork(ccNum.slice(0, 18))).to.equal('Switch');
+      });
+      it('has a prefix of ' + currPrefix + ' and a length of 19', function() {
+        expect(detectNetwork(ccNum.slice(0, 19))).to.equal('Switch');
+      });
+    })(currPrefix)
+  };
+
+});
