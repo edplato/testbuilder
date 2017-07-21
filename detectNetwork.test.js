@@ -202,9 +202,28 @@ describe('Maestro', function() {
 describe('China UnionPay', function() {
   var expect = chai.expect;
 
-  
+  var prefixRangeArray = [['622126','622925'], ['624', '626'], ['6282', '6288']];
+
+  for(var i = 0; i < prefixRangeArray.length; i++){
+    let startRange = Number(prefixRangeArray[i][0]);
+    let endRange = Number(prefixRangeArray[i][1]);
+
+    for(var j = startRange; j <= endRange; j++){
+      let currPrefix = j.toString();
+
+      (function(currPrefix) {
+      it('has a prefix of ' + currPrefix + ' and a length of 16', function() {
+        let ccNum = currPrefix + '1236789012341';
+        expect(detectNetwork(ccNum.slice(0, 16))).to.equal('China UnionPay');
+      });
+      it('has a prefix of ' + currPrefix + ' and a length of 19', function() {
+        let ccNum = currPrefix + '1236789012341234';
+        expect(detectNetwork(ccNum.slice(0, 19))).to.equal('China UnionPay');
+      });
+      })(currPrefix)
+    };
+  };
 
 });
 
-describe('should support China UnionPay')
-describe('should support Switch')
+// describe('should support Switch')
