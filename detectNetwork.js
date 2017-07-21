@@ -7,6 +7,7 @@
 //   1. The first few numbers (called the prefix)
 //   2. The number of digits in the number (called the length)
 
+// Take string input of digits, detect what type of credit card using prefix and length
 var detectNetwork = function(cardNumber) {
   // Note: `cardNumber` will always be a string
   // The Diner's Club network always starts with a 38 or 39 and is 14 digits long
@@ -14,7 +15,7 @@ var detectNetwork = function(cardNumber) {
   let prefix = cardNumber.slice(0,6);
   let len = cardNumber.length;
 
-  // Diner's Club detect using validCard helper
+  // Diner's Club detect using validCard helper function
   if(validCard(len, [14], prefix, ['38', '39'])){
     return 'Diner\'s Club';
   }
@@ -24,7 +25,7 @@ var detectNetwork = function(cardNumber) {
     return 'American Express';
   }
 
-  // Switch detect
+  // Switch detect - needs to remain above Visa to catch prefix conflicts
   else if(validCard(len, [16, 18, 19], prefix, ['4903', '4905', '4911', '4936', '564182', '633110', '6333', '6759'])){
     return 'Switch';
   }
@@ -58,7 +59,7 @@ var detectNetwork = function(cardNumber) {
 };
 
 // helper function takes inputs of number 'inputLength' and strings 'inputPrefix' and checks against valid arrays 
-// of length and prefix
+// of length and prefixes 
 function validCard(inputLength, validLength, inputPrefix, validPrefix){
   var lengthCheck = false;
 
@@ -66,7 +67,7 @@ function validCard(inputLength, validLength, inputPrefix, validPrefix){
     if(inputLength == validLength[j]){
       lengthCheck = true;
     }
-  }
+  };
 
   for(var i = 0; i < validPrefix.length; i++){
     // check if index is an array - meaning range of prefix values
@@ -84,15 +85,14 @@ function validCard(inputLength, validLength, inputPrefix, validPrefix){
         }
       }
     } else {
+      // index is not an array, so single prefix value
+      let prefixLen = validPrefix[i].length;
+      let reformPrefixInput = inputPrefix.slice(0,prefixLen);
 
-    let prefixLen = validPrefix[i].length;
-    let reformPrefixInput = inputPrefix.slice(0,prefixLen);
-
-    if(lengthCheck == true && reformPrefixInput == validPrefix[i]){
-      return true;
+      if(lengthCheck == true && reformPrefixInput == validPrefix[i]){
+        return true;
+      }
     }
-    }
-  }
+  };
   return false;
 };
-

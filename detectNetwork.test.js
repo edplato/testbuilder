@@ -6,7 +6,7 @@
 // You don't actually want to fill *this* value in on line 9, but you'll see
 // other places in this file where you'll replace the FILL_ME_IN with a
 // different value.
-var FILL_ME_IN = 'Fill this value in';
+// var FILL_ME_IN = 'Fill this value in';
  
 // describe('Introduction to Mocha Tests - READ ME FIRST', function() {
 //   // A Mocha test is just a function!
@@ -65,7 +65,6 @@ describe('American Express', function() {
     if(!isTrue) {
       throw new Error('Test failed');
     }
- 
   };
 
   it('has a prefix of 34 and a length of 15', function() {
@@ -83,7 +82,6 @@ describe('Visa', function() {
   // Search the documentation to figure out how to access it. 
   //   http://chaijs.com/
   var assert = chai.assert;
- 
 
   it('has a prefix of 4 and a length of 13', function() {
     assert.equal(detectNetwork('4123456789012'), 'Visa');
@@ -117,7 +115,6 @@ describe('MasterCard', function() {
     expect(detectNetwork('5312345678901234')).to.equal('MasterCard');
   });
 
-
   // You can also use should instead of expect, which changes the style
   // slightly. It really doesn't matter which one you use - check out 
   // http://chaijs.com/guide/styles/ for more info, but it's important
@@ -133,8 +130,7 @@ describe('MasterCard', function() {
  
   it('has a prefix of 55 and a length of 16', function() {
     expect(detectNetwork('5512345678901234')).to.equal('MasterCard');
-  })
- 
+  });
 });
 
 describe('Discover', function() {
@@ -145,6 +141,7 @@ describe('Discover', function() {
   it('has a prefix of 6011 and a length of 16', function() {
     expect(detectNetwork('6011345678901234')).to.equal('Discover');
   });
+
   it('has a prefix of 6011 and a length of 19', function() {
     expect(detectNetwork('6011345678901234123')).to.equal('Discover');
   });
@@ -152,23 +149,25 @@ describe('Discover', function() {
   it('has a prefix of 65 and a length of 16', function() {
     expect(detectNetwork('6511345678901234')).to.equal('Discover');
   });
+
   it('has a prefix of 65 and a length of 19', function() {
     expect(detectNetwork('6511345678901234123')).to.equal('Discover');
   });
 
   for(var pref = 644; pref <= 649; pref++){
+
     (function(pref) {
     it('has a prefix of ' + pref + ' and a length of 16', function() {
       let ccNum = pref + '5678901234123';
       expect(detectNetwork(ccNum)).to.equal('Discover');
     });
+
     it('has a prefix of ' + pref + ' and a length of 19', function() {
       let ccNum = pref + '3415678901234123';
       expect(detectNetwork(ccNum)).to.equal('Discover');
     });
     })(pref)
   };
-
 });
 
 describe('Maestro', function() {
@@ -176,59 +175,69 @@ describe('Maestro', function() {
   var expect = chai.expect;
 
   for(var leng = 12; leng <= 19; leng++){
+
     var testNums = '123678901234123'.slice(0, (leng-4));
+
     (function(leng, testNums) {
       it('has a prefix of 5018 and a length of ' + leng, function() {
         let ccNum = '5018' + testNums;
         expect(detectNetwork(ccNum)).to.equal('Maestro');
       });
+
       it('has a prefix of 5020 and a length of ' + leng, function() {
         let ccNum = '5020' + testNums;
         expect(detectNetwork(ccNum)).to.equal('Maestro');
       });
+
       it('has a prefix of 5038 and a length of ' + leng, function() {
         let ccNum = '5038' + testNums;
         expect(detectNetwork(ccNum)).to.equal('Maestro');
       });
+
       it('has a prefix of 6304 and a length of ' + leng, function() {
         let ccNum = '6304' + testNums;
         expect(detectNetwork(ccNum)).to.equal('Maestro');
       });
     })(leng, testNums)
   };
-
 });
 
 describe('China UnionPay', function() {
+
   var expect = chai.expect;
 
   var prefixRangeArray = [['622126','622925'], ['624', '626'], ['6282', '6288']];
 
   for(var i = 0; i < prefixRangeArray.length; i++){
+
     let startRange = Number(prefixRangeArray[i][0]);
     let endRange = Number(prefixRangeArray[i][1]);
 
     for(var j = startRange; j <= endRange; j++){
+
       let currPrefix = j.toString();
 
       (function(currPrefix) {
       let ccNum = currPrefix + '1236789012341234';
+
       it('has a prefix of ' + currPrefix + ' and a length of 16', function() {
         expect(detectNetwork(ccNum.slice(0, 16))).to.equal('China UnionPay');
       });
+
       it('has a prefix of ' + currPrefix + ' and a length of 17', function() {
         expect(detectNetwork(ccNum.slice(0, 17))).to.equal('China UnionPay');
       });
+
       it('has a prefix of ' + currPrefix + ' and a length of 18', function() {
         expect(detectNetwork(ccNum.slice(0, 18))).to.equal('China UnionPay');
       });
+
       it('has a prefix of ' + currPrefix + ' and a length of 19', function() {
         expect(detectNetwork(ccNum.slice(0, 19))).to.equal('China UnionPay');
       });
       })(currPrefix)
     };
   };
-
 });
 
 describe('Switch', function() {
@@ -238,20 +247,24 @@ describe('Switch', function() {
   var prefixNums = ['4903', '4905', '4911', '4936', '564182', '633110', '6333', '6759'];
 
   for(var i = 0; i < prefixNums.length; i++){
+
     let currPrefix = prefixNums[i];
 
     (function(currPrefix) {
+
       let ccNum = currPrefix + '123456890123456';
+
       it('has a prefix of ' + currPrefix + ' and a length of 16', function() {
         expect(detectNetwork(ccNum.slice(0, 16))).to.equal('Switch');
       });
+
       it('has a prefix of ' + currPrefix + ' and a length of 18', function() {
         expect(detectNetwork(ccNum.slice(0, 18))).to.equal('Switch');
       });
+
       it('has a prefix of ' + currPrefix + ' and a length of 19', function() {
         expect(detectNetwork(ccNum.slice(0, 19))).to.equal('Switch');
       });
     })(currPrefix)
   };
-
 });
